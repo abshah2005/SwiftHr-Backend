@@ -21,6 +21,10 @@ const applicationSchema = new Schema(
     trackingId: {
       type: String,
     },
+    userAction: {
+      type: Map,
+      of: String,
+    }
   },
   { timestamps: true }
 );

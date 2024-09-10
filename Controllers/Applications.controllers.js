@@ -125,6 +125,79 @@ const applyForPosition = async (req, res) => {
   }
 };
 
+
+const updateApplication = async (req, res) => {
+  const {
+    status,
+    interviewDate,
+    googleMeetLink,
+    assessmentDetails,
+    assessmentLink,
+    offerLetterLink,
+    applicationId
+  } = req.body;
+  if (!applicationId || !status) {
+    return res.status(400).json({ message: "Application ID and status are required" });
+  }
+
+  try {
+    const application = await Applications.findById(applicationId);
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+    switch (status) {
+      case "Interviewed":
+        if (!interviewDate || !googleMeetLink) {
+          return res.status(400).json({ message: "Interview date and Google Meet link are required" });
+        }
+        application.userAction = {
+          interviewDate,
+          googleMeetLink
+        };
+        break;
+
+      case "Assessment Required":
+        if (!assessmentDetails || !assessmentLink) {
+          return res.status(400).json({ message: "Assessment details and link are required" });
+        }
+        application.userAction = {
+          assessmentDetails,
+          assessmentLink
+        };
+        break;
+
+      case "Offered":
+        if (!offerLetterLink) {
+          return res.status(400).json({ message: "Offer letter link is required" });
+        }
+        const closePosition=await Positions.findByIdAndUpdate(application.positionId,{$set:{status:"Closed"}},{ new: true, useFindAndModify: false })
+        application.userAction = {
+          offerLetterLink
+        };
+        break;
+
+      case "Rejected":
+        application.userAction = {};
+        break;
+
+      case "Applied":
+        application.userAction = {};
+        break;
+
+      default:
+        return res.status(400).json({ message: "Invalid status" });
+    }
+
+    application.status = status;
+
+    const updatedApplication = await application.save();
+
+    res.status(200).json(updatedApplication);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
 const getUserApplications = async (req, res) => {
   const { applicantId } = req.params;
   try {
@@ -182,6 +255,6 @@ const getAllApplicants=async(req,res)=>{
   }
 }
 
-export { applyForPosition, getUserApplications, getAllApplications,getApplicationbyTid,getAllApplicants };
+export { applyForPosition, getUserApplications, getAllApplications,getApplicationbyTid,getAllApplicants,updateApplication };
 
 // 66ddef618c2198baabbd9733
