@@ -168,6 +168,20 @@ const getApplicationbyTid = async (req, res) => {
   }
 };
 
-export { applyForPosition, getUserApplications, getAllApplications,getApplicationbyTid };
+const getAllApplicants=async(req,res)=>{
+  try {
+    const applicants = await Applicants.find()
+    if (!applicants) {
+      throw new Apierror(404, "No applicants found ");
+    }
+    res
+      .status(200)
+      .json({ message: "Application fetched Successfully", applicants });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
+export { applyForPosition, getUserApplications, getAllApplications,getApplicationbyTid,getAllApplicants };
 
 // 66ddef618c2198baabbd9733
