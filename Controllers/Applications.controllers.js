@@ -110,13 +110,13 @@ const applyForPosition = async (req, res) => {
 
 const updateApplication = async (req, res) => {
   const {
+    applicationId,
     status,
     interviewDate,
     googleMeetLink,
     assessmentDetails,
     assessmentLink,
     offerLetterLink,
-    applicationId
   } = req.body;
   if (!applicationId || !status) {
     return res.status(400).json({ message: "Application ID and status are required" });
