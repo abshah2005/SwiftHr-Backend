@@ -203,7 +203,7 @@ const getUserApplications = async (req, res) => {
 
 const getAllApplications = async (req, res) => {
   try {
-    const applications = await Applications.find().populate(["ApplicantId", "positionId"]);
+    const applications = await Applications.find({status:"Open"}).populate(["ApplicantId", "positionId"]);
     if (!applications) {
       throw new Apierror(404, "No applications found");
     }
