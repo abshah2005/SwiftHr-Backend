@@ -26,12 +26,12 @@ const applyForPosition = async (req, res) => {
     CoverLetter,
   } = req.body;
 
-  const CVfile = req.file;
-  if (!CVfile) {
+  const CV = req.file;
+  if (!CV) {
     return res.status(400).json({ message: "No CV uploaded" });
   }
 
-  const filepath = CVfile.path;
+  const filepath = CV.path;
   const CVup = await uploadonCloudinary(filepath);
 
   if (!CVup || !CVup.url) {
