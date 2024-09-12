@@ -46,7 +46,7 @@ const updatePosition = async (req, res) => {
 
 const getAllPositions = async (req, res) => {
   try {
-    const positions = await Positions.find();
+    const positions = await Positions.find({status:"Open"});
     res.status(200).json({message:`Positions fetched successfully`,data:positions});
   } catch (err) {
     res.status(500).json({ message: err.message });
