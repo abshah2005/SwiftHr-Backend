@@ -161,6 +161,7 @@ const updateApplication = async (req, res) => {
         application.userAction = {
           offerLetterLink
         };
+        await Applications.updateMany({positionId:application.positionId},{$set:{status:"Rejected"}})
         await sendOfferLetter(applicantEmail, offerLetterLink);
         break;
 
