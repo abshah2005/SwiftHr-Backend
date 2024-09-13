@@ -217,7 +217,8 @@ const getAllApplications = async (req, res) => {
 
 const getApplicationbyTid = async (req, res) => {
   try {
-    const { trackingId } = req.body;
+    // const { trackingId } = req.body;
+    const {trackingId}=req.params
 
     const application = await Applications.findOne({ trackingId: trackingId }).populate("ApplicantId");
     if (!application) {
