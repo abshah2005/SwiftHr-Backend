@@ -9,7 +9,7 @@ import {
   sendInterviewDetails,
   sendAssessmentDetails,
   sendOfferLetter,
-  sendRejectionNotification
+  sendRejectionNotification,
 } from "../Utils/emailService.js";
 
 const applyForPosition = async (req, res) => {
@@ -170,9 +170,10 @@ const updateApplication = async (req, res) => {
         await sendRejectionNotification(applicantEmail);
         break;
 
-      case "Applied":
-        application.userAction = {};
-        break;
+      // case "Applied":
+      //   application.userAction = {};
+      //   // await SubmissionNotification(applicantEmail);
+      //   break;
 
       default:
         return res.status(400).json({ message: "Invalid status" });

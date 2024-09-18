@@ -18,7 +18,7 @@ export const sendApplicationTrackingId = async (email, trackingId) => {
     from: process.env.EMAIL_USER,
     to: email,
     subject: 'Application Tracking ID',
-    text: `Your Application tracking ID is ${trackingId}. You can check your application status using this Application ID anytime.`,
+    text: `Your Application is submitted successfully and it's tracking ID is ${trackingId}. You can check your application status using this Application ID anytime.`,
   };
 
   try {
@@ -92,3 +92,19 @@ export const sendRejectionNotification = async (email) => {
     console.error('Error sending email:', error);
   }
 };
+
+// export const SubmissionNotification = async (email) => {
+//   const mailOptions = {
+//     from: process.env.EMAIL_USER,
+//     to: email,
+//     subject: 'Application Status',
+//     text: `We have recieved your application for`,
+//   };
+
+//   try {
+//     const info = await transporter.sendMail(mailOptions);
+//     console.log('Email sent: ' + info.response);
+//   } catch (error) {
+//     console.error('Error sending email:', error);
+//   }
+// };
