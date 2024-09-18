@@ -15,7 +15,7 @@ const applicationSchema = new Schema(
     appliedAt: { type: Date, default: Date.now },
     status: {
       type: String,
-      enum: ["Applied", "Interviewed", "Offered", "Rejected","Assessment Required"],
+      enum: ["Applied", "Interview", "Offered", "Rejected","Assessment Required"],
       default: "Applied",
     },
     trackingId: {

@@ -131,7 +131,7 @@ const updateApplication = async (req, res) => {
     const applicantEmail = application.ApplicantId.email;
 
     switch (status) {
-      case "Interviewed":
+      case "Interview":
         if (!interviewDate || !googleMeetLink) {
           return res.status(400).json({ message: "Interview date and Google Meet link are required" });
         }
