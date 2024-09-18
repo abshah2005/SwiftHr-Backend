@@ -1,0 +1,145 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Employee Module - Add Employee",
+    "dateExported": "2024-09-16T10:35:44.827Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "80a842fa-8c0e-439f-a32f-b2b3277a8da3",
+            "colId": "e761e3fe-05f2-48fd-a4d0-5d10174a877b",
+            "containerId": "",
+            "name": "Add Employee",
+            "url": "http://localhost:5000/api/Employees/updateEmployee",
+            "method": "PUT",
+            "sortNum": 10000,
+            "created": "2024-09-16T10:27:33.068Z",
+            "modified": "2024-09-16T10:33:26.996Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "employeeId",
+                        "value": "66e8056639d9ee20b334b363"
+                    },
+                    {
+                        "name": "lastname",
+                        "value": "Doe",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "roleId",
+                        "value": "66e5da94e14ed571ed8e82cd"
+                    },
+                    {
+                        "name": "DepartmentId",
+                        "value": "64d8c1e5e4b3d235bcab7433",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[EmployeeId]",
+                        "value": "EMP12345",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[MobileNumber]",
+                        "value": "1234567890",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[PersonalEmail]",
+                        "value": "john.doe@example.com",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[DateofBirth]",
+                        "value": "1990-01-01",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[MaritalStatus]",
+                        "value": "Single",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[Nationality]",
+                        "value": "American",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[Gender]",
+                        "value": "Male",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[Address]",
+                        "value": "123 Main St, Anytown",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[City]",
+                        "value": "Anytown",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[State]",
+                        "value": "State",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[ZipCode]",
+                        "value": "12345",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[EmployeeType]",
+                        "value": "Onsite"
+                    },
+                    {
+                        "name": "employeeData[ProfessionalEmail]",
+                        "value": "john.doe@company.com",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[Designation]",
+                        "value": "It Administrator"
+                    },
+                    {
+                        "name": "employeeData[joiningDate]",
+                        "value": "2024-01-01",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[professionalUsername]",
+                        "value": "johndoe",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[Username]",
+                        "value": "johndoe123",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "employeeData[Password]",
+                        "value": "Abdullah"
+                    },
+                    {
+                        "name": "employeeData[Email]",
+                        "value": "john.doe@company.com",
+                        "isDisabled": true
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "AppointmentLetter",
+                        "value": "c:\\Users\\Administrator\\Desktop\\guide\\Offer letter.pdf"
+                    }
+                ]
+            },
+            "tests": []
+        }
+    ]
+}

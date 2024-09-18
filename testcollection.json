@@ -1,0 +1,149 @@
+{
+    "info": {
+        "_postman_id": "e456e61e-4d3a-4a2e-9e3c-36d1d0a5c86e",
+        "name": "Employee Module - Add Employee",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": "Collection for testing the add employee functionality."
+    },
+    "item": [
+        {
+            "name": "Add Employee",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:5000/api/Employees/addEmployee",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "api",
+                        "Employees",
+                        "addEmployee"
+                    ]
+                },
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "firstname",
+                            "value": "John",
+                            "type": "text"
+                        },
+                        {
+                            "key": "lastname",
+                            "value": "Doe",
+                            "type": "text"
+                        },
+                        {
+                            "key": "roleId",
+                            "value": "64d8c1e5e4b3d235bcab7432",
+                            "type": "text"
+                        },
+                        {
+                            "key": "DepartmentId",
+                            "value": "64d8c1e5e4b3d235bcab7433",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[EmployeeId]",
+                            "value": "EMP12345",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[MobileNumber]",
+                            "value": "1234567890",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[PersonalEmail]",
+                            "value": "john.doe@example.com",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[DateofBirth]",
+                            "value": "1990-01-01",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[MaritalStatus]",
+                            "value": "Single",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[Nationality]",
+                            "value": "American",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[Gender]",
+                            "value": "Male",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[Address]",
+                            "value": "123 Main St, Anytown",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[City]",
+                            "value": "Anytown",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[State]",
+                            "value": "State",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[ZipCode]",
+                            "value": "12345",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[EmployeeType]",
+                            "value": "Remote",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[ProfessionalEmail]",
+                            "value": "john.doe@company.com",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[Designation]",
+                            "value": "Software Engineer",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[joiningDate]",
+                            "value": "2024-01-01",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[professionalUsername]",
+                            "value": "johndoe",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[Username]",
+                            "value": "johndoe123",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[Password]",
+                            "value": "SecurePassword123",
+                            "type": "text"
+                        },
+                        {
+                            "key": "employeeData[Email]",
+                            "value": "john.doe@company.com",
+                            "type": "text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
