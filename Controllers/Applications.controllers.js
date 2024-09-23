@@ -137,7 +137,7 @@ const updateApplication = async (req, res) => {
     const applicantEmail = application.ApplicantId.email;
 
     switch (status) {
-      case "Interviewed":
+      case "Interview":
         if (!interviewDate || !googleMeetLink) {
           return res.status(400).json({
             message: "Interview date and Google Meet link are required",
@@ -197,9 +197,10 @@ const updateApplication = async (req, res) => {
         await sendRejectionNotification(applicantEmail);
         break;
 
-      case "Applied":
-        application.userAction = {};
-        break;
+      // case "Applied":
+      //   application.userAction = {};
+      //   // await SubmissionNotification(applicantEmail);
+      //   break;
 
       default:
         return res.status(400).json({ message: "Invalid status" });
@@ -229,7 +230,7 @@ const getUserApplications = async (req, res) => {
 
 const getAllApplications = async (req, res) => {
   try {
-    const applications = await Applications.find().populate([
+    const applications = await Applications.find({ status: "Open" }).populate([
       "ApplicantId",
       "positionId",
     ]);
