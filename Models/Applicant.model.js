@@ -30,10 +30,6 @@ const ApplicantSchema = new Schema(
         type:String,
         required:true
       },
-      Address:{
-        type:String,
-        required:true
-      },
       CV:{
         type:String,
         required:true
@@ -42,9 +38,6 @@ const ApplicantSchema = new Schema(
         type:String,
         required:true
       }
-      
-
-
     },
     { timestamps: true }
   );

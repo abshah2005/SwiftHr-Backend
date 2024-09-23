@@ -9,7 +9,7 @@ import {
   sendInterviewDetails,
   sendAssessmentDetails,
   sendOfferLetter,
-  sendRejectionNotification
+  sendRejectionNotification,
 } from "../Utils/emailService.js";
 
 const applyForPosition = async (req, res) => {
@@ -26,16 +26,16 @@ const applyForPosition = async (req, res) => {
     CoverLetter,
   } = req.body;
 
-  const CVfile = req.file;
-  if (!CVfile) {
+  const CV = req.file;
+  if (!CV) {
     return res.status(400).json({ message: "No CV uploaded" });
   }
 
-  const filepath = CVfile.path;
+  const filepath = CV.path;
   const CVup = await uploadonCloudinary(filepath);
 
   if (!CVup || !CVup.url) {
-    return res.status(400).json({ message: "File not uploaded to Cloudinary" });
+    return res.status(500).json({ message: "File not uploaded to Cloudinary" });
   }
 
   const fileurl = CVup.url;
@@ -43,7 +43,9 @@ const applyForPosition = async (req, res) => {
   try {
     const position = await Positions.findById(positionId);
     if (!position || position.status === "Closed") {
-      return res.status(400).json({ message: "Position is not available" });
+      return res
+        .status(400)
+        .json({ message: "This position is not available" });
     }
 
     let applicant = await Applicants.findOne({ email });
@@ -102,9 +104,9 @@ const applyForPosition = async (req, res) => {
       trackingId: TrackingId,
     });
 
-    res.status(201).json(application);
+    res.status(200).json(application);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -119,11 +121,15 @@ const updateApplication = async (req, res) => {
     offerLetterLink,
   } = req.body;
   if (!applicationId || !status) {
-    return res.status(400).json({ message: "Application ID and status are required" });
+    return res
+      .status(400)
+      .json({ message: "Application ID and status are required" });
   }
 
   try {
-    const application = await Applications.findById(applicationId).populate('ApplicantId');
+    const application = await Applications.findById(applicationId).populate(
+      "ApplicantId"
+    );
     if (!application) {
       return res.status(404).json({ message: "Application not found" });
     }
@@ -133,35 +139,56 @@ const updateApplication = async (req, res) => {
     switch (status) {
       case "Interviewed":
         if (!interviewDate || !googleMeetLink) {
-          return res.status(400).json({ message: "Interview date and Google Meet link are required" });
+          return res.status(400).json({
+            message: "Interview date and Google Meet link are required",
+          });
         }
         application.userAction = {
           interviewDate,
-          googleMeetLink
+          googleMeetLink,
         };
-        await sendInterviewDetails(applicantEmail, interviewDate, googleMeetLink);
+        await sendInterviewDetails(
+          applicantEmail,
+          interviewDate,
+          googleMeetLink
+        );
         break;
 
       case "Assessment Required":
         if (!assessmentDetails || !assessmentLink) {
-          return res.status(400).json({ message: "Assessment details and link are required" });
+          return res
+            .status(400)
+            .json({ message: "Assessment details and link are required" });
         }
         application.userAction = {
           assessmentDetails,
-          assessmentLink
+          assessmentLink,
         };
-        await sendAssessmentDetails(applicantEmail, assessmentDetails, assessmentLink);
+        await sendAssessmentDetails(
+          applicantEmail,
+          assessmentDetails,
+          assessmentLink
+        );
         break;
 
       case "Offered":
         if (!offerLetterLink) {
-          return res.status(400).json({ message: "Offer letter link is required" });
+          return res
+            .status(400)
+            .json({ message: "Offer letter link is required" });
         }
-        await Positions.findByIdAndUpdate(application.positionId, { $set: { status: "Closed" } }, { new: true, useFindAndModify: false });
+        await Positions.findByIdAndUpdate(
+          application.positionId,
+          { $set: { status: "Closed" } },
+          { new: true, useFindAndModify: false }
+        );
         application.userAction = {
-          offerLetterLink
+          offerLetterLink,
         };
-        await Applications.updateMany({positionId:application.positionId},{$set:{status:"Rejected"}})
+        await Applications.updateMany(
+          { positionId: application.positionId },
+          { $set: { status: "Rejected" } }
+        );
         await sendOfferLetter(applicantEmail, offerLetterLink);
         break;
 
@@ -191,10 +218,9 @@ const updateApplication = async (req, res) => {
 const getUserApplications = async (req, res) => {
   const { applicantId } = req.params;
   try {
-    const applications = await Applications.find({ ApplicantId: applicantId }).populate([
-      "positionId",
-      "ApplicantId",
-    ]);
+    const applications = await Applications.find({
+      ApplicantId: applicantId,
+    }).populate(["positionId", "ApplicantId"]);
     res.json(applications);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -203,13 +229,17 @@ const getUserApplications = async (req, res) => {
 
 const getAllApplications = async (req, res) => {
   try {
-    const applications = await Applications.find().populate(["ApplicantId", "positionId"]);
+    const applications = await Applications.find().populate([
+      "ApplicantId",
+      "positionId",
+    ]);
     if (!applications) {
       throw new Apierror(404, "No applications found");
     }
-    res
-      .status(200)
-      .json({ message: "Applications fetched Successfully", data: applications });
+    res.status(200).json({
+      message: "Applications fetched Successfully",
+      data: applications,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -217,20 +247,28 @@ const getAllApplications = async (req, res) => {
 
 const getApplicationbyTid = async (req, res) => {
   try {
-    const { trackingId } = req.body;
+    const { trackingId } = req.params;
 
-    const application = await Applications.findOne({ trackingId: trackingId }).populate("ApplicantId");
+    const application = await Applications.findOne({
+      trackingId: trackingId,
+    }).populate("ApplicantId");
+
     if (!application) {
-      throw new Apierror(404, "No application found of corresponding tracking id");
+      // Return a 404 status code directly
+      return res.status(404).json({
+        message: "No application found for the corresponding tracking ID",
+      });
     }
+
+    // If application is found, return success response
     res
       .status(200)
-      .json({ message: "Application fetched Successfully", application });
+      .json({ message: "Application fetched successfully", application });
   } catch (err) {
+    // Handle server errors with a 500 response
     res.status(500).json({ message: err.message });
   }
 };
-
 const getAllApplicants = async (req, res) => {
   try {
     const applicants = await Applicants.find();
@@ -245,4 +283,11 @@ const getAllApplicants = async (req, res) => {
   }
 };
 
-export { applyForPosition, getUserApplications, getAllApplications, getApplicationbyTid, getAllApplicants, updateApplication };
+export {
+  applyForPosition,
+  getUserApplications,
+  getAllApplications,
+  getApplicationbyTid,
+  getAllApplicants,
+  updateApplication,
+};
