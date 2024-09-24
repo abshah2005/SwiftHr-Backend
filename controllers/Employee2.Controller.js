@@ -539,35 +539,3 @@ export {
   getEmployeeById,
 };
 
-//Test data
-// {
-//   "firstname": "Zahid",
-//   "lastname": "Shah",
-//   "roleId": "66e5dac7e14ed571ed8e82d9",
-//   "DepartmentId": "66e5dc16e14ed571ed8e82e6",
-//   "employeeData": {
-//     "EmployeeId": "EMP56789",
-//     "MobileNumber": "03350904415",
-//     "PersonalEmail": "abdullah03350904415@gmail.com",
-//     "DateofBirth": "1985-05-15T00:00:00.000Z",
-//     "MaritalStatus": "Single",
-//     "Nationality": "Pakistani",
-//     "Gender": "Female",
-//     "Address": "Walton Road lahore",
-//     "City": "Lahore",
-//     "State": "Pakistan",
-//     "ZipCode": "K1A 0B1",
-//     "EmployeeType": "Onsite",
-//     "ProfessionalEmail": "2023f-mulbscs-026@mul.edu.pk",
-//     "Designation": "Senior Developer",
-//     "joiningDate": "2024-01-10T00:00:00.000Z",
-//     "AppointmentLetter": "path/to/appointment_letter.pdf",
-//     "SalarySlip": "path/to/salary_slip.pdf",
-//     "RelievingLetter": "path/to/releasing_letter.pdf", 
-//     "ExperienceLetter": "path/to/experience_letter.pdf",
-//     "professionalUsername": "Zahid_shah123",
-//     "Username": "ZahidShah",
-//     "Password": "Spring2024",
-//     "Email": "2023f-mulbscs-026@mul.edu.pk"
-//   }
-// }

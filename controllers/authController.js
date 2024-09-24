@@ -201,4 +201,15 @@ const resetPassword = async (req, res) => {
   }
 };
 
-export { signin, verifySignInOtp, forgotPassword, resetPassword, resendOtp };
+const getAllUsers=async(req,res)=>{
+  try {
+    const Users = await User.find().populate("EmployeeId")
+    if(!Users){
+      return res.status(404).json({ message: "No Users found." });
+    }
+    return res.status(200).json({message:"Users fetched successfully",data:Users})
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving Users", error });
+  }
+}
+export { signin, verifySignInOtp, forgotPassword, resetPassword, resendOtp,getAllUsers };
