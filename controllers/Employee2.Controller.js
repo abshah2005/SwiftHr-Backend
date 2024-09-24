@@ -8,147 +8,24 @@ import { uploadonCloudinary } from "../utils/Fileupload.js";
 //******************************************************************************************* */
 
 
-const addEmployeeAndUser = async (req, res) => {
-  try {
-    const { firstname, lastname, roleId, DepartmentId, employeeData } =
-      req.body;
-    const files=req.files;
-    if(!files){
-      return res.status(400).json({ message: 'No files were uploaded.' });
-    }
-    const appointmentLetter=files.AppointmentLetter?files.AppointmentLetter[0]:null;
-    const salarySlip=files.SalarySlip?files.SalarySlip[0]:null;
-    const relievingLetter=files.RelievingLetter?files.RelievingLetter[0]:null;
-    const experienceLetter=files.ExperienceLetter?files.ExperienceLetter[0]:null;
-
-    const appointmentLetterUrl = appointmentLetter ? await uploadonCloudinary(appointmentLetter.path) : "not uploaded yet";
-    const salarySlipUrl = salarySlip ? await uploadonCloudinary(salarySlip.path) : "not uploaded yet";
-    const relievingLetterUrl = relievingLetter ? await uploadonCloudinary(relievingLetter.path) : "not uploaded yet";
-    const experienceLetterUrl = experienceLetter ? await uploadonCloudinary(experienceLetter.path) : "not uploaded yet";
-
-    const role = await Roles.findById(roleId);
-    if (!role) {
-      return res.status(400).json({ message: "Invalid role specified." });
-    }
-
-    const department = await Department.findById(DepartmentId);
-    if (!department) {
-      return res.status(400).json({ message: "Invalid department specified." });
-    }
-
-    const newEmployee = await Employee.create({
-      firstname,
-      lastname,
-      role: role._id,
-      EmployeeId: employeeData.EmployeeId,
-      Department: department._id,
-      MobileNumber: employeeData.MobileNumber,
-      PersonalEmail: employeeData.PersonalEmail,
-      DateofBirth: employeeData.DateofBirth,
-      MaritalStatus: employeeData.MaritalStatus,
-      Nationality: employeeData.Nationality,
-      Gender: employeeData.Gender,
-      Address: employeeData.Address,
-      City: employeeData.City,
-      State: employeeData.State,
-      ZipCode: employeeData.ZipCode,
-      EmployeeType: employeeData.EmployeeType,
-      ProfessionalEmail: employeeData.ProfessionalEmail,
-      Designation: employeeData.Designation,
-      joiningDate: employeeData.joiningDate,
-      AppointmentLetter: appointmentLetterUrl?.url || "not uploaded yet",
-      SalarySlip: salarySlipUrl?.url || "not uploaded yet",
-      RelievingLetter: relievingLetterUrl?.url || "not uploaded yet",
-      ExperienceLetter: experienceLetterUrl?.url || "not uploaded yet",
-      professionalUsername: employeeData.professionalUsername,
-      Username: employeeData.Username,
-      Password: await bcrypt.hash(employeeData.Password, 10),
-      Email: employeeData.Email,
-    });
-
-    if (!newEmployee) {
-      res
-        .status(400)
-        .json({ message: "Something went wrong while creating Employee" });
-    }
-    const newUser = await User.create({
-      fullname: `${firstname} ${lastname}`,
-      email: newEmployee.Email,
-      password: newEmployee.Password,
-      EmployeeId: newEmployee._id,
-    });
-
-    res.status(201).json({
-      message: "Employee and User created successfully",
-      employee: newEmployee,
-      user: newUser,
-    });
-  } catch (error) {
-    console.error("Error creating employee and user:", error);
-    res
-      .status(500)
-      .json({ message: "Error creating employee and user", error });
-  }
-};
-
 // const addEmployeeAndUser = async (req, res) => {
 //   try {
-//     const {
-//       firstname,
-//       lastname,
-//       roleId,
-//       DepartmentId,
-//       EmployeeId,
-//       MobileNumber,
-//       PersonalEmail,
-//       DateofBirth,
-//       MaritalStatus,
-//       Nationality,
-//       Gender,
-//       Address,
-//       City,
-//       State,
-//       ZipCode,
-//       EmployeeType,
-//       ProfessionalEmail,
-//       Designation,
-//       joiningDate,
-//       professionalUsername,
-//       Username,
-//       Password,
-//       Email,
-//     } = req.body;
-
-//     const files = req.files;
-//     if (!files) {
-//       return res.status(400).json({ message: "No files were uploaded." });
+//     const { firstname, lastname, roleId, DepartmentId, employeeData } =
+//       req.body;
+//     const files=req.files;
+//     if(!files){
+//       return res.status(400).json({ message: 'No files were uploaded.' });
 //     }
+//     const appointmentLetter=files.AppointmentLetter?files.AppointmentLetter[0]:null;
+//     const salarySlip=files.SalarySlip?files.SalarySlip[0]:null;
+//     const relievingLetter=files.RelievingLetter?files.RelievingLetter[0]:null;
+//     const experienceLetter=files.ExperienceLetter?files.ExperienceLetter[0]:null;
 
-//     const appointmentLetter = files.AppointmentLetter
-//       ? files.AppointmentLetter[0]
-//       : null;
-//     const salarySlip = files.SalarySlip ? files.SalarySlip[0] : null;
-//     const relievingLetter = files.RelievingLetter
-//       ? files.RelievingLetter[0]
-//       : null;
-//     const experienceLetter = files.ExperienceLetter
-//       ? files.ExperienceLetter[0]
-//       : null;
+//     const appointmentLetterUrl = appointmentLetter ? await uploadonCloudinary(appointmentLetter.path) : "not uploaded yet";
+//     const salarySlipUrl = salarySlip ? await uploadonCloudinary(salarySlip.path) : "not uploaded yet";
+//     const relievingLetterUrl = relievingLetter ? await uploadonCloudinary(relievingLetter.path) : "not uploaded yet";
+//     const experienceLetterUrl = experienceLetter ? await uploadonCloudinary(experienceLetter.path) : "not uploaded yet";
 
-//     const appointmentLetterUrl = appointmentLetter
-//       ? await uploadonCloudinary(appointmentLetter.path)
-//       : null;
-//     const salarySlipUrl = salarySlip
-//       ? await uploadonCloudinary(salarySlip.path)
-//       : null;
-//     const relievingLetterUrl = relievingLetter
-//       ? await uploadonCloudinary(relievingLetter.path)
-//       : null;
-//     const experienceLetterUrl = experienceLetter
-//       ? await uploadonCloudinary(experienceLetter.path)
-//       : null;
-
-//     // Validate role and department
 //     const role = await Roles.findById(roleId);
 //     if (!role) {
 //       return res.status(400).json({ message: "Invalid role specified." });
@@ -159,44 +36,41 @@ const addEmployeeAndUser = async (req, res) => {
 //       return res.status(400).json({ message: "Invalid department specified." });
 //     }
 
-//     // Create the Employee
 //     const newEmployee = await Employee.create({
 //       firstname,
 //       lastname,
 //       role: role._id,
-//       EmployeeId,
+//       EmployeeId: employeeData.EmployeeId,
 //       Department: department._id,
-//       MobileNumber,
-//       PersonalEmail,
-//       DateofBirth,
-//       MaritalStatus,
-//       Nationality,
-//       Gender,
-//       Address,
-//       City,
-//       State,
-//       ZipCode,
-//       EmployeeType,
-//       ProfessionalEmail,
-//       Designation,
-//       joiningDate,
-//       AppointmentLetter: appointmentLetterUrl || "not uploaded yet",
-//       SalarySlip: salarySlipUrl || "not uploaded yet",
-//       RelievingLetter: relievingLetterUrl || "not uploaded yet",
-//       ExperienceLetter: experienceLetterUrl || "not uploaded yet",
-//       professionalUsername,
-//       Username,
-//       Password: await bcrypt.hash(Password, 10),
-//       Email,
+//       MobileNumber: employeeData.MobileNumber,
+//       PersonalEmail: employeeData.PersonalEmail,
+//       DateofBirth: employeeData.DateofBirth,
+//       MaritalStatus: employeeData.MaritalStatus,
+//       Nationality: employeeData.Nationality,
+//       Gender: employeeData.Gender,
+//       Address: employeeData.Address,
+//       City: employeeData.City,
+//       State: employeeData.State,
+//       ZipCode: employeeData.ZipCode,
+//       EmployeeType: employeeData.EmployeeType,
+//       ProfessionalEmail: employeeData.ProfessionalEmail,
+//       Designation: employeeData.Designation,
+//       joiningDate: employeeData.joiningDate,
+//       AppointmentLetter: appointmentLetterUrl?.url || "not uploaded yet",
+//       SalarySlip: salarySlipUrl?.url || "not uploaded yet",
+//       RelievingLetter: relievingLetterUrl?.url || "not uploaded yet",
+//       ExperienceLetter: experienceLetterUrl?.url || "not uploaded yet",
+//       professionalUsername: employeeData.professionalUsername,
+//       Username: employeeData.Username,
+//       Password: await bcrypt.hash(employeeData.Password, 10),
+//       Email: employeeData.Email,
 //     });
 
 //     if (!newEmployee) {
-//       return res
+//       res
 //         .status(400)
 //         .json({ message: "Something went wrong while creating Employee" });
 //     }
-
-//     // Create the User
 //     const newUser = await User.create({
 //       fullname: `${firstname} ${lastname}`,
 //       email: newEmployee.Email,
@@ -216,6 +90,133 @@ const addEmployeeAndUser = async (req, res) => {
 //       .json({ message: "Error creating employee and user", error });
 //   }
 // };
+
+// second approach 
+const addEmployeeAndUser = async (req, res) => {
+  try {
+    const {
+      firstname,
+      lastname,
+      roleId,
+      DepartmentId,
+      EmployeeId,
+      MobileNumber,
+      PersonalEmail,
+      DateofBirth,
+      MaritalStatus,
+      Nationality,
+      Gender,
+      Address,
+      City,
+      State,
+      ZipCode,
+      EmployeeType,
+      ProfessionalEmail,
+      Designation,
+      joiningDate,
+      professionalUsername,
+      Username,
+      Password,
+      Email,
+    } = req.body;
+
+    const files = req.files;
+    if (!files) {
+      return res.status(400).json({ message: "No files were uploaded." });
+    }
+
+    const appointmentLetter = files.AppointmentLetter
+      ? files.AppointmentLetter[0]
+      : null;
+    const salarySlip = files.SalarySlip ? files.SalarySlip[0] : null;
+    const relievingLetter = files.RelievingLetter
+      ? files.RelievingLetter[0]
+      : null;
+    const experienceLetter = files.ExperienceLetter
+      ? files.ExperienceLetter[0]
+      : null;
+
+    const appointmentLetterUrl = appointmentLetter
+      ? await uploadonCloudinary(appointmentLetter.path)
+      : null;
+    const salarySlipUrl = salarySlip
+      ? await uploadonCloudinary(salarySlip.path)
+      : null;
+    const relievingLetterUrl = relievingLetter
+      ? await uploadonCloudinary(relievingLetter.path)
+      : null;
+    const experienceLetterUrl = experienceLetter
+      ? await uploadonCloudinary(experienceLetter.path)
+      : null;
+
+    // Validate role and department
+    const role = await Roles.findById(roleId);
+    if (!role) {
+      return res.status(400).json({ message: "Invalid role specified." });
+    }
+
+    const department = await Department.findById(DepartmentId);
+    if (!department) {
+      return res.status(400).json({ message: "Invalid department specified." });
+    }
+
+    // Create the Employee
+    const newEmployee = await Employee.create({
+      firstname,
+      lastname,
+      role: role._id,
+      EmployeeId,
+      Department: department._id,
+      MobileNumber,
+      PersonalEmail,
+      DateofBirth,
+      MaritalStatus,
+      Nationality,
+      Gender,
+      Address,
+      City,
+      State,
+      ZipCode,
+      EmployeeType,
+      ProfessionalEmail,
+      Designation,
+      joiningDate,
+      AppointmentLetter: appointmentLetterUrl?.url || "not uploaded yet",
+      SalarySlip: salarySlipUrl?.url || "not uploaded yet",
+      RelievingLetter: relievingLetterUrl?.url || "not uploaded yet",
+      ExperienceLetter: experienceLetterUrl?.url || "not uploaded yet",
+      professionalUsername,
+      Username,
+      Password: await bcrypt.hash(Password, 10),
+      Email,
+    });
+
+    if (!newEmployee) {
+      return res
+        .status(400)
+        .json({ message: "Something went wrong while creating Employee" });
+    }
+
+    // Create the User
+    const newUser = await User.create({
+      fullname: `${firstname} ${lastname}`,
+      email: newEmployee.Email,
+      password: newEmployee.Password,
+      EmployeeId: newEmployee._id,
+    });
+
+    res.status(201).json({
+      message: "Employee and User created successfully",
+      employee: newEmployee,
+      user: newUser,
+    });
+  } catch (error) {
+    console.error("Error creating employee and user:", error);
+    res
+      .status(500)
+      .json({ message: "Error creating employee and user", error });
+  }
+};
 
 //******************************************************************************************* */
 
@@ -562,7 +563,7 @@ export {
 //     "joiningDate": "2024-01-10T00:00:00.000Z",
 //     "AppointmentLetter": "path/to/appointment_letter.pdf",
 //     "SalarySlip": "path/to/salary_slip.pdf",
-//     "RelievingLetter": "path/to/releasing_letter.pdf",
+//     "RelievingLetter": "path/to/releasing_letter.pdf", 
 //     "ExperienceLetter": "path/to/experience_letter.pdf",
 //     "professionalUsername": "Zahid_shah123",
 //     "Username": "ZahidShah",
