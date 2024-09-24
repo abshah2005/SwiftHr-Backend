@@ -1,0 +1,176 @@
+{
+    "info": {
+        "_postman_id": "9dbbddc3-b287-4e1e-892f-e1f971d22ef1",
+        "name": "Elaf",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "Update Employee Elaf",
+            "request": {
+                "method": "PUT",
+                "url": {
+                    "raw": "http://localhost:5000/api/Employees/updateEmployee",
+                    "path": [
+                        "api",
+                        "Employees",
+                        "updateEmployee"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000"
+                },
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "employeeId",
+                            "value": "66f28c432d522c36e4b68782",
+                            "type": "default"
+                        },
+                        {
+                            "key": "lastname",
+                            "value": "Doe",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "roleId",
+                            "value": "66e5da94e14ed571ed8e82cd",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "DepartmentId",
+                            "value": "64d8c1e5e4b3d235bcab7433",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[EmployeeId]",
+                            "value": "EMP12345",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[MobileNumber]",
+                            "value": "1234567890",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[PersonalEmail]",
+                            "value": "john.doe@example.com",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[DateofBirth]",
+                            "value": "1990-01-01",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[MaritalStatus]",
+                            "value": "Single",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[Nationality]",
+                            "value": "American",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[Gender]",
+                            "value": "Male",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[Address]",
+                            "value": "123 Main St, Anytown",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[City]",
+                            "value": "Anytown",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[State]",
+                            "value": "State",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[ZipCode]",
+                            "value": "12345",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[EmployeeType]",
+                            "value": "Onsite",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[ProfessionalEmail]",
+                            "value": "john.doe@company.com",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[Designation]",
+                            "value": "It Administrator",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[joiningDate]",
+                            "value": "2024-01-01",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[professionalUsername]",
+                            "value": "johndoe",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[Username]",
+                            "value": "johndoe123",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[Password]",
+                            "value": "Abdullah",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "employeeData[Email]",
+                            "value": "john.doe@company.com",
+                            "disabled": true,
+                            "type": "default"
+                        },
+                        {
+                            "key": "AppointmentLetter",
+                            "src": "c:\\Users\\Administrator\\Desktop\\Abdullah CV.pdf",
+                            "type": "file"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

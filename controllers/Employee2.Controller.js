@@ -269,116 +269,6 @@ const removeEmployee = async (req, res) => {
 //******************************************************************************************* */
 
 //ye pehli approach ha yar
-const updateEmployee = async (req, res) => {
-  try {
-    const {
-      employeeId,
-      firstname,
-      lastname,
-      roleId,
-      DepartmentId,
-      employeeData,
-    } = req.body;
-    const files = req.files;
-
-    const employee = await Employee.findById(employeeId);
-    if (!employee) {
-      return res.status(404).json({ message: "Employee not found" });
-    }
-
-    // Update employee fields only if provided
-    if (firstname) employee.firstname = firstname;
-    if (lastname) employee.lastname = lastname;
-    if (roleId) {
-      const role = await Roles.findById(roleId);
-      if (!role) {
-        return res.status(400).json({ message: "Invalid role specified." });
-      }
-      employee.role = role._id;
-    }
-
-    if (DepartmentId) {
-      const department = await Department.findById(DepartmentId);
-      if (!department) {
-        return res
-          .status(400)
-          .json({ message: "Invalid department specified." });
-      }
-      employee.Department = department._id;
-    }
-
-    // Update employeeData fields if provided
-    if (employeeData) {
-      Object.keys(employeeData).forEach((key) => {
-        if (employeeData[key]) employee[key] = employeeData[key];
-      });
-    }
-
-    const appointmentLetter = files?.AppointmentLetter
-      ? files.AppointmentLetter[0]
-      : null;
-    const salarySlip = files?.SalarySlip ? files.SalarySlip[0] : null;
-    const relievingLetter = files?.RelievingLetter
-      ? files.RelievingLetter[0]
-      : null;
-    const experienceLetter = files?.ExperienceLetter
-      ? files.ExperienceLetter[0]
-      : null;
-
-    if (appointmentLetter) {
-      const appointmentLetterUrl = await uploadonCloudinary(
-        appointmentLetter.path
-      );
-      employee.AppointmentLetter =
-        appointmentLetterUrl?.url || employee.AppointmentLetter;
-    }
-    if (salarySlip) {
-      const salarySlipUrl = await uploadonCloudinary(salarySlip.path);
-      employee.SalarySlip = salarySlipUrl?.url || employee.SalarySlip;
-    }
-    if (relievingLetter) {
-      const relievingLetterUrl = await uploadonCloudinary(relievingLetter.path);
-      employee.RelievingLetter =
-        relievingLetterUrl?.url || employee.RelievingLetter;
-    }
-    if (experienceLetter) {
-      const experienceLetterUrl = await uploadonCloudinary(
-        experienceLetter.path
-      );
-      employee.ExperienceLetter =
-        experienceLetterUrl?.url || employee.ExperienceLetter;
-    }
-
-    const updatedEmployee = await employee.save();
-
-    // Update the associated user if necessary
-    const user = await User.findOne({ EmployeeId: employeeId });
-    if (user) {
-      user.fullname = `${firstname || employee.firstname} ${
-        lastname || employee.lastname
-      }`;
-      user.email = employee.ProfessionalEmail || user.email;
-      if (employeeData && employeeData.Password) {
-        user.password = await bcrypt.hash(employeeData.Password, 10);
-      }
-      await user.save();
-    }
-
-    res.status(200).json({
-      message: "Employee and User updated successfully",
-      employee: updatedEmployee,
-      user,
-    });
-  } catch (error) {
-    console.error("Error updating employee and user:", error);
-    res
-      .status(500)
-      .json({ message: "Error updating employee and user", error });
-  }
-};
-
-//or ye dosri approach ha
-
 // const updateEmployee = async (req, res) => {
 //   try {
 //     const {
@@ -387,28 +277,10 @@ const updateEmployee = async (req, res) => {
 //       lastname,
 //       roleId,
 //       DepartmentId,
-//       EmployeeId,
-//       MobileNumber,
-//       PersonalEmail,
-//       DateofBirth,
-//       MaritalStatus,
-//       Nationality,
-//       Gender,
-//       Address,
-//       City,
-//       State,
-//       ZipCode,
-//       EmployeeType,
-//       ProfessionalEmail,
-//       Designation,
-//       joiningDate,
-//       professionalUsername,
-//       Username,
-//       Password,
+//       employeeData,
 //     } = req.body;
 //     const files = req.files;
 
-//     // Find the employee
 //     const employee = await Employee.findById(employeeId);
 //     if (!employee) {
 //       return res.status(404).json({ message: "Employee not found" });
@@ -428,64 +300,66 @@ const updateEmployee = async (req, res) => {
 //     if (DepartmentId) {
 //       const department = await Department.findById(DepartmentId);
 //       if (!department) {
-//         return res.status(400).json({ message: "Invalid department specified." });
+//         return res
+//           .status(400)
+//           .json({ message: "Invalid department specified." });
 //       }
 //       employee.Department = department._id;
 //     }
 
-//     // Update other fields if provided
-//     employee.EmployeeId = EmployeeId || employee.EmployeeId;
-//     employee.MobileNumber = MobileNumber || employee.MobileNumber;
-//     employee.PersonalEmail = PersonalEmail || employee.PersonalEmail;
-//     employee.DateofBirth = DateofBirth || employee.DateofBirth;
-//     employee.MaritalStatus = MaritalStatus || employee.MaritalStatus;
-//     employee.Nationality = Nationality || employee.Nationality;
-//     employee.Gender = Gender || employee.Gender;
-//     employee.Address = Address || employee.Address;
-//     employee.City = City || employee.City;
-//     employee.State = State || employee.State;
-//     employee.ZipCode = ZipCode || employee.ZipCode;
-//     employee.EmployeeType = EmployeeType || employee.EmployeeType;
-//     employee.ProfessionalEmail = ProfessionalEmail || employee.ProfessionalEmail;
-//     employee.Designation = Designation || employee.Designation;
-//     employee.joiningDate = joiningDate || employee.joiningDate;
-//     employee.professionalUsername = professionalUsername || employee.professionalUsername;
-//     employee.Username = Username || employee.Username;
-
-//     if (files) {
-//       const appointmentLetter = files.AppointmentLetter ? files.AppointmentLetter[0] : null;
-//       const salarySlip = files.SalarySlip ? files.SalarySlip[0] : null;
-//       const relievingLetter = files.RelievingLetter ? files.RelievingLetter[0] : null;
-//       const experienceLetter = files.ExperienceLetter ? files.ExperienceLetter[0] : null;
-
-//       if (appointmentLetter) {
-//         const appointmentLetterUrl = await uploadonCloudinary(appointmentLetter.path);
-//         employee.AppointmentLetter = appointmentLetterUrl || employee.AppointmentLetter;
-//       }
-//       if (salarySlip) {
-//         const salarySlipUrl = await uploadonCloudinary(salarySlip.path);
-//         employee.SalarySlip = salarySlipUrl || employee.SalarySlip;
-//       }
-//       if (relievingLetter) {
-//         const relievingLetterUrl = await uploadonCloudinary(relievingLetter.path);
-//         employee.RelievingLetter = relievingLetterUrl || employee.RelievingLetter;
-//       }
-//       if (experienceLetter) {
-//         const experienceLetterUrl = await uploadonCloudinary(experienceLetter.path);
-//         employee.ExperienceLetter = experienceLetterUrl || employee.ExperienceLetter;
-//       }
+//     // Update employeeData fields if provided
+//     if (employeeData) {
+//       Object.keys(employeeData).forEach((key) => {
+//         if (employeeData[key]) employee[key] = employeeData[key];
+//       });
 //     }
 
-//     // Save the updated employee
+//     const appointmentLetter = files?.AppointmentLetter
+//       ? files.AppointmentLetter[0]
+//       : null;
+//     const salarySlip = files?.SalarySlip ? files.SalarySlip[0] : null;
+//     const relievingLetter = files?.RelievingLetter
+//       ? files.RelievingLetter[0]
+//       : null;
+//     const experienceLetter = files?.ExperienceLetter
+//       ? files.ExperienceLetter[0]
+//       : null;
+
+//     if (appointmentLetter) {
+//       const appointmentLetterUrl = await uploadonCloudinary(
+//         appointmentLetter.path
+//       );
+//       employee.AppointmentLetter =
+//         appointmentLetterUrl?.url || employee.AppointmentLetter;
+//     }
+//     if (salarySlip) {
+//       const salarySlipUrl = await uploadonCloudinary(salarySlip.path);
+//       employee.SalarySlip = salarySlipUrl?.url || employee.SalarySlip;
+//     }
+//     if (relievingLetter) {
+//       const relievingLetterUrl = await uploadonCloudinary(relievingLetter.path);
+//       employee.RelievingLetter =
+//         relievingLetterUrl?.url || employee.RelievingLetter;
+//     }
+//     if (experienceLetter) {
+//       const experienceLetterUrl = await uploadonCloudinary(
+//         experienceLetter.path
+//       );
+//       employee.ExperienceLetter =
+//         experienceLetterUrl?.url || employee.ExperienceLetter;
+//     }
+
 //     const updatedEmployee = await employee.save();
 
 //     // Update the associated user if necessary
 //     const user = await User.findOne({ EmployeeId: employeeId });
 //     if (user) {
-//       user.fullname = `${firstname || employee.firstname} ${lastname || employee.lastname}`;
-//       user.email = ProfessionalEmail || user.email;
-//       if (Password) {
-//         user.password = await bcrypt.hash(Password, 10);
+//       user.fullname = `${firstname || employee.firstname} ${
+//         lastname || employee.lastname
+//       }`;
+//       user.email = employee.ProfessionalEmail || user.email;
+//       if (employeeData && employeeData.Password) {
+//         user.password = await bcrypt.hash(employeeData.Password, 10);
 //       }
 //       await user.save();
 //     }
@@ -497,9 +371,135 @@ const updateEmployee = async (req, res) => {
 //     });
 //   } catch (error) {
 //     console.error("Error updating employee and user:", error);
-//     res.status(500).json({ message: "Error updating employee and user", error });
+//     res
+//       .status(500)
+//       .json({ message: "Error updating employee and user", error });
 //   }
 // };
+
+//or ye dosri approach ha
+
+const updateEmployee = async (req, res) => {
+  try {
+    const {
+      employeeId,
+      firstname,
+      lastname,
+      roleId,
+      DepartmentId,
+      EmployeeId,
+      MobileNumber,
+      PersonalEmail,
+      DateofBirth,
+      MaritalStatus,
+      Nationality,
+      Gender,
+      Address,
+      City,
+      State,
+      ZipCode,
+      EmployeeType,
+      ProfessionalEmail,
+      Designation,
+      joiningDate,
+      professionalUsername,
+      Username,
+      Password,
+    } = req.body;
+    const files = req.files;
+
+    // Find the employee
+    const employee = await Employee.findById(employeeId);
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    // Update employee fields only if provided
+    if (firstname) employee.firstname = firstname;
+    if (lastname) employee.lastname = lastname;
+    if (roleId) {
+      const role = await Roles.findById(roleId);
+      if (!role) {
+        return res.status(400).json({ message: "Invalid role specified." });
+      }
+      employee.role = role._id;
+    }
+
+    if (DepartmentId) {
+      const department = await Department.findById(DepartmentId);
+      if (!department) {
+        return res.status(400).json({ message: "Invalid department specified." });
+      }
+      employee.Department = department._id;
+    }
+
+    // Update other fields if provided
+    employee.EmployeeId = EmployeeId || employee.EmployeeId;
+    employee.MobileNumber = MobileNumber || employee.MobileNumber;
+    employee.PersonalEmail = PersonalEmail || employee.PersonalEmail;
+    employee.DateofBirth = DateofBirth || employee.DateofBirth;
+    employee.MaritalStatus = MaritalStatus || employee.MaritalStatus;
+    employee.Nationality = Nationality || employee.Nationality;
+    employee.Gender = Gender || employee.Gender;
+    employee.Address = Address || employee.Address;
+    employee.City = City || employee.City;
+    employee.State = State || employee.State;
+    employee.ZipCode = ZipCode || employee.ZipCode;
+    employee.EmployeeType = EmployeeType || employee.EmployeeType;
+    employee.ProfessionalEmail = ProfessionalEmail || employee.ProfessionalEmail;
+    employee.Designation = Designation || employee.Designation;
+    employee.joiningDate = joiningDate || employee.joiningDate;
+    employee.professionalUsername = professionalUsername || employee.professionalUsername;
+    employee.Username = Username || employee.Username;
+
+    if (files) {
+      const appointmentLetter = files.AppointmentLetter ? files.AppointmentLetter[0] : null;
+      const salarySlip = files.SalarySlip ? files.SalarySlip[0] : null;
+      const relievingLetter = files.RelievingLetter ? files.RelievingLetter[0] : null;
+      const experienceLetter = files.ExperienceLetter ? files.ExperienceLetter[0] : null;
+
+      if (appointmentLetter) {
+        const appointmentLetterUrl = await uploadonCloudinary(appointmentLetter.path);
+        employee.AppointmentLetter = appointmentLetterUrl?.url || employee.AppointmentLetter;
+      }
+      if (salarySlip) {
+        const salarySlipUrl = await uploadonCloudinary(salarySlip.path);
+        employee.SalarySlip = salarySlipUrl?.url || employee.SalarySlip;
+      }
+      if (relievingLetter) {
+        const relievingLetterUrl = await uploadonCloudinary(relievingLetter.path);
+        employee.RelievingLetter = relievingLetterUrl?.url || employee.RelievingLetter;
+      }
+      if (experienceLetter) {
+        const experienceLetterUrl = await uploadonCloudinary(experienceLetter.path);
+        employee.ExperienceLetter = experienceLetterUrl?.url || employee.ExperienceLetter;
+      }
+    }
+
+    // Save the updated employee
+    const updatedEmployee = await employee.save();
+
+    // Update the associated user if necessary
+    const user = await User.findOne({ EmployeeId: employeeId });
+    if (user) {
+      user.fullname = `${firstname || employee.firstname} ${lastname || employee.lastname}`;
+      user.email = ProfessionalEmail || user.email;
+      if (Password) {
+        user.password = await bcrypt.hash(Password, 10);
+      }
+      await user.save();
+    }
+
+    res.status(200).json({
+      message: "Employee and User updated successfully",
+      employee: updatedEmployee,
+      user,
+    });
+  } catch (error) {
+    console.error("Error updating employee and user:", error);
+    res.status(500).json({ message: "Error updating employee and user", error });
+  }
+};
 
 //******************************************************************************************* */
 

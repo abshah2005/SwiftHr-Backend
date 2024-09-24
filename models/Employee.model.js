@@ -14,6 +14,7 @@ const EmployeeSchema = new Schema(
       EmployeeId: {
         type: String,
         required: true,
+        unique:true
       },
       Department: {
         type: Schema.Types.ObjectId,
@@ -110,6 +111,7 @@ const EmployeeSchema = new Schema(
       Email:{//this will be used for signing in
         type: String,
         required: true,
+        unique:true
       }
     },
     { timestamps: true }

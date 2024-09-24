@@ -1,0 +1,170 @@
+{
+    "info": {
+      "name": "Employee and User API",
+      "description": "Collection for testing employee and user creation endpoint.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Add Employee and User",
+        "request": {
+          "method": "POST",
+          "header": [],
+          "body": {
+            "mode": "formdata",
+            "formdata": [
+              {
+                "key": "firstname",
+                "value": "Abdullah",
+                "type": "text"
+              },
+              {
+                "key": "lastname",
+                "value": "Khan",
+                "type": "text"
+              },
+              {
+                "key": "roleId",
+                "value": "YOUR_ROLE_ID",
+                "type": "text"
+              },
+              {
+                "key": "DepartmentId",
+                "value": "YOUR_DEPARTMENT_ID",
+                "type": "text"
+              },
+              {
+                "key": "EmployeeId",
+                "value": "EMP123",
+                "type": "text"
+              },
+              {
+                "key": "MobileNumber",
+                "value": "1234567890",
+                "type": "text"
+              },
+              {
+                "key": "PersonalEmail",
+                "value": "abdullah@example.com",
+                "type": "text"
+              },
+              {
+                "key": "DateofBirth",
+                "value": "1990-01-01",
+                "type": "text"
+              },
+              {
+                "key": "MaritalStatus",
+                "value": "Single",
+                "type": "text"
+              },
+              {
+                "key": "Nationality",
+                "value": "Pakistani",
+                "type": "text"
+              },
+              {
+                "key": "Gender",
+                "value": "Male",
+                "type": "text"
+              },
+              {
+                "key": "Address",
+                "value": "123 Main St",
+                "type": "text"
+              },
+              {
+                "key": "City",
+                "value": "Lahore",
+                "type": "text"
+              },
+              {
+                "key": "State",
+                "value": "Punjab",
+                "type": "text"
+              },
+              {
+                "key": "ZipCode",
+                "value": "54000",
+                "type": "text"
+              },
+              {
+                "key": "EmployeeType",
+                "value": "Full-Time",
+                "type": "text"
+              },
+              {
+                "key": "ProfessionalEmail",
+                "value": "abdullah.professional@example.com",
+                "type": "text"
+              },
+              {
+                "key": "Designation",
+                "value": "Software Engineer",
+                "type": "text"
+              },
+              {
+                "key": "joiningDate",
+                "value": "2024-01-01",
+                "type": "text"
+              },
+              {
+                "key": "professionalUsername",
+                "value": "abdullah_professional",
+                "type": "text"
+              },
+              {
+                "key": "Username",
+                "value": "abdullah_khan",
+                "type": "text"
+              },
+              {
+                "key": "Password",
+                "value": "YourPassword123",
+                "type": "text"
+              },
+              {
+                "key": "Email",
+                "value": "abdullah.khan@example.com",
+                "type": "text"
+              },
+              {
+                "key": "AppointmentLetter",
+                "type": "file",
+                "src": "path/to/your/appointment_letter.pdf"
+              },
+              {
+                "key": "SalarySlip",
+                "type": "file",
+                "src": "path/to/your/salary_slip.pdf"
+              },
+              {
+                "key": "RelievingLetter",
+                "type": "file",
+                "src": "path/to/your/releasing_letter.pdf"
+              },
+              {
+                "key": "ExperienceLetter",
+                "type": "file",
+                "src": "path/to/your/experience_letter.pdf"
+              }
+            ]
+          },
+          "url": {
+            "raw": "http://localhost:YOUR_PORT/api/employees",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "YOUR_PORT",
+            "path": [
+              "api",
+              "employees"
+            ]
+          }
+        },
+        "response": []
+      }
+    ]
+  }
+  
