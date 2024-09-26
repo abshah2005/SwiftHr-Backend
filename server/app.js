@@ -2,10 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 // import userRoutes from "./Routes/Users.route.js"
-import applicationRoutes from "./Routes/Applications.route.js"
-import positionroutes from "./Routes/Positions.route.js"
-
-dotenv.config();
+import applicationRoutes from "./src/routes/Applications.route.js"
+import positionroutes from "./src/routes/Positions.route.js"
 
 const app = express();
 app.use(
