@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { getPositionById,getAllPositions,updatePosition,createPosition } from '../Controllers/Positions.controllers.js';
+import { getPositionById,getAllPositions,updatePosition,createPosition } from '../controllers/Positions.controllers.js';
 const router = Router();
 
 router.route("/createPosition").post(createPosition)

@@ -1,5 +1,5 @@
-import { Positions } from "../Models/Positions.model.js";
-import { Applications } from "../Models/Applications.model.js";
+import { Positions } from "../models/Positions.model.js";
+import { Applications } from "../models/Applications.model.js";
 
 const createPosition = async (req, res) => {
   const { title, description } = req.body;
