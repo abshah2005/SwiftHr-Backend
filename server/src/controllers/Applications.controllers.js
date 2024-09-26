@@ -1,16 +1,16 @@
-import { Applications } from "../Models/Applications.model.js";
-import { Positions } from "../Models/Positions.model.js";
-import { Applicants } from "../Models/Applicant.model.js";
-import { Apierror } from "../Utils/Apierror.js";
-import { uploadonCloudinary } from "../Utils/Fileupload.js";
-import { generateApplicationId } from "../Utils/GenerateTrackId.js";
+import { Applications } from "../models/Applications.model.js";
+import { Positions } from "../models/Positions.model.js";
+import { Applicants } from "../models/Applicant.model.js";
+import { Apierror } from "../utils/Apierror.js";
+import { uploadonCloudinary } from "../utils/Fileupload.js";
+import { generateApplicationId } from "../utils/GenerateTrackId.js";
 import {
   sendApplicationTrackingId,
   sendInterviewDetails,
   sendAssessmentDetails,
   sendOfferLetter,
   sendRejectionNotification,
-} from "../Utils/emailService.js";
+} from "../utils/emailService.js";
 
 const applyForPosition = async (req, res) => {
   const {

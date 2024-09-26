@@ -1,4 +1,4 @@
-import { ApplicationCounter } from "../Models/ApplicationsCounter.model.js";
+import { ApplicationCounter } from "../models/ApplicationsCounter.model.js";
 
 export const generateApplicationId = async (positionTitle) => {
   const initials = positionTitle
